@@ -1,11 +1,14 @@
 name: 'Wait'
 description: 'Wait a designated number of milliseconds'
 inputs:
-  trigger:  # id of input
+  reaction:
+    description: 'The emoji "reaction" to put on the comment to indicate that the trigger was detected. For example, "rocket"'
+    required: false
+  trigger:
     description: 'The string to look for in pull-request descriptions and comments'
     required: true
 outputs:
-  triggered: # output will be available to future steps 
+  triggered:
     description: the string 'true' if the trigger was found
 runs:
   using: 'node12'
