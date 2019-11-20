@@ -1,0 +1,12 @@
+name: 'Wait'
+description: 'Wait a designated number of milliseconds'
+inputs:
+  trigger:  # id of input
+    description: 'The string to look for in pull-request descriptions and comments'
+    required: true
+outputs:
+  triggered: # output will be available to future steps 
+    description: the string 'true' if the trigger was found
+runs:
+  using: 'node12'
+  main: 'index.js'
