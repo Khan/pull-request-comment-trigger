@@ -19,15 +19,19 @@ And then you can use the action in your jobs like this:
 
 ```
 jobs:
-  do_some_work:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: khan/pull-request-comment-trigger@master
         id: check
         with:
-          trigger: '@hello/world'
+          trigger: '@deploy'
+          reaction: rocket
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - run: 'echo Found it!'
         if: steps.check.outputs.triggered == 'true'
 ```
+
+Reaction must be one of the reactions here: https://developer.github.com/v3/reactions/#reaction-types
+And if you specify a reaction, you have to provide the `GITHUB_TOKEN` env vbl.
