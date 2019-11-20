@@ -6,13 +6,37 @@ on:
     types: [created]
 
 jobs:
-  pull_request_comment_trigger:
+  hello:
     runs-on: ubuntu-latest
     steps:
       - uses: khan/pull-request-comment-trigger@master
         id: check
         with:
-          trigger: '@hello/world'
+          trigger: '@hello'
+      - run: 'echo Found it!'
+        if: steps.check.outputs.triggered == 'true'
+
+  eyes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: '@look'
+          reaction: eyes
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - run: 'echo Found it!'
+        if: steps.check.outputs.triggered == 'true'
+
+  rocket:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: '@deploy'
+          reaction: rocket
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - run: 'echo Found it!'
