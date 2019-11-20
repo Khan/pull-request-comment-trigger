@@ -2,7 +2,7 @@
   "name": "pull-request-comment-trigger",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dist": "npx -p @zeit/ncc ncc build index.js"
   },
