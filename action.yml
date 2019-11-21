@@ -1,15 +1,18 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Pull Request Comment Trigger'
+description: 'Look for a "trigger word" in a pull-request description or comment, so that later steps can know whether or not to run.'
 inputs:
   reaction:
     description: 'The emoji "reaction" to put on the comment to indicate that the trigger was detected. For example, "rocket"'
     required: false
   trigger:
-    description: 'The string to look for in pull-request descriptions and comments'
+    description: 'The string to look for in pull-request descriptions and comments. For example "#build/android"'
     required: true
 outputs:
   triggered:
-    description: the string 'true' if the trigger was found
+    description: the string 'true' if the trigger was found, otherwise the string 'false'
 runs:
   using: 'node12'
   main: 'dist/index.js'
+branding:
+  icon: check-circle
+  color: red
