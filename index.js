@@ -27,12 +27,9 @@ async function run() {
 
     const { owner, repo } = context.repo;
 
-    const body =
-        context.eventName === "issue_comment"
-            ? context.payload.comment.body
-            : context.payload.pull_request.body;
 
-    if (!body.includes(trigger)) {
+    const prefixOnly = core.getInput("prefix_only") === 'true';
+    if ((prefixOnly && !body.startsWith(trigger)) || !body.includes(trigger)) {
         core.setOutput("triggered", "false");
         return;
     }
