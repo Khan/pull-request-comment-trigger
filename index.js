@@ -13,6 +13,12 @@ async function run() {
         return;
     }
 
+    const body =
+        context.eventName === "issue_comment"
+            ? context.payload.comment.body
+            : context.payload.pull_request.body;
+    core.setOutput('comment_body', body);
+
     if (
         context.eventName === "issue_comment" &&
         !context.payload.issue.pull_request
