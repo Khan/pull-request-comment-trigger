@@ -4,11 +4,8 @@ const core = require("@actions/core");
 const { context, GitHub } = require("@actions/github");
 
 async function run() {
-    const trigger = core.getInput("trigger");
-    if (!trigger) {
-        core.setFailed("No `trigger` input given, aborting.");
-        return;
-    }
+    const trigger = core.getInput("trigger", { required: true });
+
     const reaction = core.getInput("reaction");
     const { GITHUB_TOKEN } = process.env;
     if (reaction && !GITHUB_TOKEN) {
