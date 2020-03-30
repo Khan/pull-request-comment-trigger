@@ -4,17 +4,20 @@ const core = require("@actions/core");
 const { context, GitHub } = require("@actions/github");
 
 async function run() {
-    const trigger = core.getInput("trigger");
-    if (!trigger) {
-        core.setFailed("No `trigger` input given, aborting.");
-        return;
-    }
+    const trigger = core.getInput("trigger", { required: true });
+
     const reaction = core.getInput("reaction");
     const { GITHUB_TOKEN } = process.env;
     if (reaction && !GITHUB_TOKEN) {
         core.setFailed('If "reaction" is supplied, GITHUB_TOKEN is required');
         return;
     }
+
+    const body =
+        context.eventName === "issue_comment"
+            ? context.payload.comment.body
+            : context.payload.pull_request.body;
+    core.setOutput('comment_body', body);
 
     if (
         context.eventName === "issue_comment" &&
@@ -27,12 +30,9 @@ async function run() {
 
     const { owner, repo } = context.repo;
 
-    const body =
-        context.eventName === "issue_comment"
-            ? context.payload.comment.body
-            : context.payload.pull_request.body;
 
-    if (!body.includes(trigger)) {
+    const prefixOnly = core.getInput("prefix_only") === 'true';
+    if ((prefixOnly && !body.startsWith(trigger)) || !body.includes(trigger)) {
         core.setOutput("triggered", "false");
         return;
     }
