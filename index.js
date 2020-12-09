@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
 const core = require("@actions/core");
-const { context, GitHub } = require("@actions/github");
+const github = require("@actions/github");
+
+const context = github.context;
 
 async function run() {
     const trigger = core.getInput("trigger", { required: true });
@@ -43,7 +45,7 @@ async function run() {
         return;
     }
 
-    const client = new GitHub(GITHUB_TOKEN);
+    const client = github.getOctokit(GITHUB_TOKEN);
     if (context.eventName === "issue_comment") {
         await client.reactions.createForIssueComment({
             owner,
