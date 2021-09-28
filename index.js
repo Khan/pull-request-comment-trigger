@@ -17,6 +17,8 @@ async function run() {
         context.eventName === "issue_comment"
             ? context.payload.comment.body
             : context.payload.pull_request.body;
+    
+    console.log(body);
     core.setOutput('comment_body', body);
 
     if (
@@ -32,11 +34,11 @@ async function run() {
 
 
     const prefixOnly = core.getInput("prefix_only") === 'true';
-    if ((prefixOnly && !body.startsWith(trigger)) || (!prefixOnly && !body.includes(trigger))) {
+    if (!body.includes(trigger) || (prefixOnly && !body.startsWith(trigger)) ) {
         core.setOutput("triggered", "false");
         return;
     }
-
+    console.log(trigger);
     core.setOutput("triggered", "true");
 
     if (!reaction) {
