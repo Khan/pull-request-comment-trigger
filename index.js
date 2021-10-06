@@ -21,8 +21,8 @@ async function run() {
         core.setOutput("triggered", "false");
         return;
     }
-    
-    const body = context.payload.pull_request.body;
+    console.log(context.payload);
+    const body = context.payload.issue.body;
     
     console.log(body);
     core.setOutput('comment_body', body);
