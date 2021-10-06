@@ -13,14 +13,6 @@ async function run() {
         return;
     }
 
-    const body =
-        context.eventName === "issue_comment"
-            ? context.payload.comment.body
-            : context.payload.pull_request.body;
-    
-    console.log(body);
-    core.setOutput('comment_body', body);
-
     if (
         context.eventName === "issue_comment" &&
         !context.payload.issue.pull_request
@@ -29,6 +21,11 @@ async function run() {
         core.setOutput("triggered", "false");
         return;
     }
+    
+    const body = context.payload.pull_request.body;
+    
+    console.log(body);
+    core.setOutput('comment_body', body);
 
     const { owner, repo } = context.repo;
 
