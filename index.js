@@ -31,7 +31,7 @@ async function run() {
 
 
     const prefixOnly = core.getInput("prefix_only") === 'true';
-    if (!body.includes(trigger) || (prefixOnly && !body.startsWith(trigger)) ) {
+    if ((prefixOnly && !body.startsWith(trigger)) || (!prefixOnly && !body.includes(trigger))) {
         core.setOutput("triggered", "false");
         return;
     }
