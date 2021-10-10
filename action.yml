@@ -1,4 +1,4 @@
-name: 'Pull Request Comment Trigger'
+name: 'Pull Request Comment Trigger v1.0.1'
 description: 'Look for a "trigger word" in a pull-request description or comment, so that later steps can know whether or not to run.'
 inputs:
   reaction:

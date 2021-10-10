@@ -13,12 +13,6 @@ async function run() {
         return;
     }
 
-    const body =
-        context.eventName === "issue_comment"
-            ? context.payload.comment.body
-            : context.payload.pull_request.body;
-    core.setOutput('comment_body', body);
-
     if (
         context.eventName === "issue_comment" &&
         !context.payload.issue.pull_request
@@ -27,16 +21,21 @@ async function run() {
         core.setOutput("triggered", "false");
         return;
     }
+    console.log(context.payload);
+    const body = context.payload.issue.body;
+    
+    console.log(body);
+    core.setOutput('comment_body', body);
 
     const { owner, repo } = context.repo;
 
 
     const prefixOnly = core.getInput("prefix_only") === 'true';
-    if ((prefixOnly && !body.startsWith(trigger)) || !body.includes(trigger)) {
+    if ((prefixOnly && !body.startsWith(trigger)) || (!prefixOnly && !body.includes(trigger))) {
         core.setOutput("triggered", "false");
         return;
     }
-
+    console.log(trigger);
     core.setOutput("triggered", "true");
 
     if (!reaction) {
