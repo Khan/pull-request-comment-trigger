@@ -6,6 +6,18 @@ on:
     types: [created]
 
 jobs:
+  prefix_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: khan/pull-request-comment-trigger@prefix_test
+        id: check
+        with:
+          trigger: '#prefix'
+          prefix_only: true
+          reaction: '100'
+      - run: 'echo Found it!'
+        if: steps.check.outputs.triggered == 'true'
+
   hello:
     runs-on: ubuntu-latest
     steps:
