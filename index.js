@@ -3,6 +3,15 @@
 const core = require("@actions/core");
 const { context, GitHub } = require("@actions/github");
 
+const MAP = {
+    "issue_comment": {
+        "key": "comment"
+    },
+    "pull_request_comment": {
+        "key": "pull_request"
+    }
+}
+
 async function run() {
     const trigger = core.getInput("trigger", { required: true });
 
@@ -12,19 +21,13 @@ async function run() {
         core.setFailed('If "reaction" is supplied, GITHUB_TOKEN is required');
         return;
     }
-
-    let body =
-        (context.eventName === "issue_comment"
-        // For comments on pull requests
-            ? context.payload.comment.body
-            // For the initial pull request description
-            : context.payload.pull_request.body) || '';
-    body = body.trim();
+    const {eventName, payload} = context;
+    const body = payload[MAP[eventName]["key"]].body.trim();
 
     core.setOutput('comment_body', body);
     if (
-        context.eventName === "issue_comment" &&
-        !context.payload.issue.pull_request
+        eventName === "issue_comment" &&
+        !payload.issue.pull_request
     ) {
         // not a pull-request comment, aborting
         core.setOutput("triggered", "false");
