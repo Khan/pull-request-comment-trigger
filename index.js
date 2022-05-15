@@ -13,14 +13,15 @@ async function run() {
         return;
     }
 
-    const body =
+    let body =
         (context.eventName === "issue_comment"
         // For comments on pull requests
             ? context.payload.comment.body
             // For the initial pull request description
             : context.payload.pull_request.body) || '';
-    core.setOutput('comment_body', body);
+    body = body.trim();
 
+    core.setOutput('comment_body', body);
     if (
         context.eventName === "issue_comment" &&
         !context.payload.issue.pull_request
