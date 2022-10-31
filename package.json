@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/jaredly/actions-testbed#readme",
   "dependencies": {
-    "@actions/core": "^1.2.0",
+    "@actions/core": "^1.10.0",
     "@actions/github": "^1.1.0",
     "prettier": "^1.19.1",
     "prettier-cli": "^0.1.0"
