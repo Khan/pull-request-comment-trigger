@@ -13,6 +13,8 @@ async function run() {
         return;
     }
 
+    console.log(context)
+
     const body =
         (context.eventName === "issue_comment"
         // For comments on pull requests
