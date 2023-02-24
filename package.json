@@ -1,10 +1,10 @@
 {
   "name": "pull-request-comment-trigger",
   "version": "1.0.0",
-  "description": "",
+  "description": "GitHub Action to look for a 'trigger word' in a pull-request description or comment, so that later steps can know whether or not to run.",
   "main": "dist/index.js",
   "scripts": {
-    "dist": "npx -p @zeit/ncc ncc build index.js",
+    "dist": "npx -p @vercel/ncc ncc build index.js",
     "format": "prettier --write '*.js' --tab-width=4"
   },
   "repository": {
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/jaredly/actions-testbed.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jason Sooter",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jaredly/actions-testbed/issues"
