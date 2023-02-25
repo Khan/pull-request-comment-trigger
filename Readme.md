@@ -7,6 +7,7 @@ Look for a "trigger word" in a pull-request description or comment, so that late
 ## Example usage in a workflow
 
 Your workflow needs to listen to the following events:
+
 ```
 on:
   pull_request:
@@ -22,7 +23,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@v1.1.0
+      - name: Pull Request Trigger on Comment
+        uses: segmentJason/pull-request-comment-trigger@v1.1.0
         id: check
         with:
           trigger: '@deploy'
@@ -38,16 +40,15 @@ And if you specify a reaction, you have to provide the `GITHUB_TOKEN` env vbl.
 
 ## Inputs
 
-| Input | Required? | Description |
-| ----- | --------- | ----------- |
-| trigger | Yes | The string to look for in pull-request descriptions and comments. For example "#build/android". |
-| prefix_only | No (default 'false') | If 'true', the trigger must match the start of the comment. |
-| reaction | No (default '') | If set, the specified emoji "reaction" is put on the comment to indicate that the trigger was detected. For example, "rocket". |
-
+| Input       | Required?            | Description                                                                                                                    |
+| ----------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| trigger     | Yes                  | The string to look for in pull-request descriptions and comments. For example "#build/android".                                |
+| prefix_only | No (default 'false') | If 'true', the trigger must match the start of the comment.                                                                    |
+| reaction    | No (default '')      | If set, the specified emoji "reaction" is put on the comment to indicate that the trigger was detected. For example, "rocket". |
 
 ## Outputs
 
-| Output | Description |
-| ------ | ----------- |
-| triggered | 'true' or 'false' depending on if the trigger phrase was found. |
-| comment_body | The comment body. |
+| Output       | Description                                                     |
+| ------------ | --------------------------------------------------------------- |
+| triggered    | 'true' or 'false' depending on if the trigger phrase was found. |
+| comment_body | The comment body.                                               |
