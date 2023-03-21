@@ -1,4 +1,4 @@
-name: 'Pull Request Comment Trigger'
+name: 'Pull Request Comment Trigger fork'
 description: 'Look for a "trigger word" in a pull-request description or comment, so that later steps can know whether or not to run.'
 inputs:
   reaction:
@@ -18,7 +18,7 @@ outputs:
   comment_body:
     description: The comment body.
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
 branding:
   icon: check-circle
