@@ -4,6 +4,11 @@ Look for a "trigger word" in a pull-request description or comment, so that late
 
 <!-- TODO release workflow-preprocessor This is most useful in tandem with [workflow-preprocessor], so that you don't have to be writing a ton of `if`s all down the line. -->
 
+:warning: This is a fork of the [Khan/pull-request-comment-trigger](https://github.com/Khan/pull-request-comment-trigger) action ([marketplace](https://github.com/marketplace/actions/pull-request-comment-trigger)), with upgrades for deprecated GitHub Actions functionality:
+
+- [2022-10-11-github-actions-deprecating-save-state-and-set-output-commands](https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/)
+- [2022-09-22-github-actions-all-actions-will-begin-running-on-node16-instead-of-node12](https://github.blog/changelog/2022-09-22-github-actions-all-actions-will-begin-running-on-node16-instead-of-node12/)
+
 ## Example usage in a workflow
 
 Your workflow needs to listen to the following events:
@@ -22,7 +27,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@v1.1.0
+      - uses: gdonati78/pull-request-comment-trigger@v1.1.0
         id: check
         with:
           trigger: '@deploy'
