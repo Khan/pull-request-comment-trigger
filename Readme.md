@@ -29,7 +29,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: shanegenschaw/pull-request-comment-trigger@v2.0.0
+      - uses: shanegenschaw/pull-request-comment-trigger@v2.1.0
         id: check
         with:
           trigger: '@deploy'
@@ -37,6 +37,25 @@ jobs:
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - run: 'echo Found it!'
+        if: steps.check.outputs.triggered == 'true'
+```
+
+You can either pass arguments in your comment, e.g. `@deploy dev`:
+
+```
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shanegenschaw/pull-request-comment-trigger@v2.1.0
+        id: check
+        with:
+          trigger: '@deploy **'
+          reaction: rocket
+          allow_arguments: true
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - run: 'echo Found it! Deploy on ${{ fromJson(steps.check.outputs.arguments)[0] }}'
         if: steps.check.outputs.triggered == 'true'
 ```
 
@@ -50,6 +69,7 @@ And if you specify a reaction, you have to provide the `GITHUB_TOKEN` env vbl.
 | trigger | Yes | The string to look for in pull-request descriptions and comments. For example "#build/android". |
 | prefix_only | No (default 'false') | If 'true', the trigger must match the start of the comment. |
 | reaction | No (default '') | If set, the specified emoji "reaction" is put on the comment to indicate that the trigger was detected. For example, "rocket". |
+| allow_arguments | No (default 'false') | If 'true', script looks for `**` markers that are considered as comment arguments. |
 
 
 ## Outputs
@@ -58,3 +78,4 @@ And if you specify a reaction, you have to provide the `GITHUB_TOKEN` env vbl.
 | ------ | ----------- |
 | triggered | 'true' or 'false' depending on if the trigger phrase was found. |
 | comment_body | The comment body. |
+| arguments | The comment arguments. |
