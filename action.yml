@@ -12,6 +12,10 @@ inputs:
     description: If 'true', the trigger must match the start of the comment.
     required: false
     default: "false"
+  allow_arguments:
+    description: If 'true', the trigger can have arguments. Can be passed via "**".
+    required: false
+    default: "false"
 outputs:
   triggered:
     description: the string 'true' if the trigger was found, otherwise the string 'false'
