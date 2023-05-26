@@ -9,7 +9,7 @@ jobs:
   hello:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
+      - uses: shanegenschaw/pull-request-comment-trigger@master
         id: check
         with:
           trigger: '#hello'
@@ -19,7 +19,7 @@ jobs:
   eyes:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
+      - uses: shanegenschaw/pull-request-comment-trigger@master
         id: check
         with:
           trigger: '#look'
@@ -32,7 +32,7 @@ jobs:
   rocket:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
+      - uses: shanegenschaw/pull-request-comment-trigger@master
         id: check
         with:
           trigger: '#deploy'
@@ -45,7 +45,7 @@ jobs:
   arguments-rocket:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
+      - uses: shanegenschaw/pull-request-comment-trigger@comment-args
         id: check
         with:
           trigger: '#deploy on ** environment'
