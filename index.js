@@ -33,13 +33,41 @@ async function run() {
     const { owner, repo } = context.repo;
 
 
-    const prefixOnly = core.getInput("prefix_only") === 'true';
-    if ((prefixOnly && !body.startsWith(trigger)) || !body.includes(trigger)) {
+    const allowArguments = core.getInput("allow_arguments") === 'true';
+
+    let hasTrigger = body.startsWith(trigger);
+
+    if (allowArguments) {
+        let regexRawTrigger = trigger.replace(/\s\*{2}/g, ' [^\\s]+');
+
+        regexRawTrigger = `^${regexRawTrigger}$`;
+
+        const regexTrigger = new RegExp(regexRawTrigger);
+
+        hasTrigger = regexTrigger.test(body);
+    }
+
+    if (!hasTrigger) {
         core.setOutput("triggered", "false");
         return;
     }
 
     core.setOutput("triggered", "true");
+
+    if (allowArguments && trigger.includes('**')) {
+        const args = [];
+
+        const triggerSplit = trigger.split(' ');
+        const bodySplit = body.split(' ');
+
+        triggerSplit.forEach((part, i) => {
+            if (part !== '**') return;
+
+            args.push(bodySplit[i]);
+        });
+
+        core.setOutput("arguments", JSON.stringify(args));
+    }
 
     if (!reaction) {
         return;

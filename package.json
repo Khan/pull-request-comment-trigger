@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dist": "npx -p @zeit/ncc ncc build index.js",
+    "dist": "npx -p @vercel/ncc ncc build index.js",
     "format": "prettier --write '*.js' --tab-width=4"
   },
   "repository": {
