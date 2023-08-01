@@ -59,8 +59,7 @@ And if you specify a reaction, you have to provide the `GITHUB_TOKEN` env vbl.
 
 | Input | Required? | Description |
 | ----- | --------- | ----------- |
-| trigger | Yes | The string to look for in pull-request descriptions and comments. For example "#build/android". |
-| prefix_only | No (default 'false') | If 'true', the trigger must match the start of the comment. |
+| trigger | Yes | The string to look for in pull-request descriptions and comments. The trigger should be placed at the beginning. For example "#build/android". |
 | reaction | No (default '') | If set, the specified emoji "reaction" is put on the comment to indicate that the trigger was detected. For example, "rocket". |
 | allow_arguments | No (default 'false') | If 'true', script looks for `**` markers that are considered as comment arguments. |
 
