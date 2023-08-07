@@ -15917,7 +15917,6 @@ async function run() {
     const { owner, repo } = context.repo;
 
 
-    const prefixOnly = core.getInput("prefix_only") === 'true';
     const allowArguments = core.getInput("allow_arguments") === 'true';
 
     let hasTrigger = body.startsWith(trigger);
@@ -15925,18 +15924,14 @@ async function run() {
     if (allowArguments) {
         let regexRawTrigger = trigger.replace(/\s\*{2}/g, ' [^\\s]+');
 
-        if (prefixOnly) {
-            regexRawTrigger = `^${regexRawTrigger}$`;
-        } else {
-            regexRawTrigger = `${regexRawTrigger}$`;
-        }
+        regexRawTrigger = `^${regexRawTrigger}$`;
 
         const regexTrigger = new RegExp(regexRawTrigger);
 
         hasTrigger = regexTrigger.test(body);
     }
 
-    if ((prefixOnly && !hasTrigger) || !hasTrigger) {
+    if (!hasTrigger) {
         core.setOutput("triggered", "false");
         return;
     }
