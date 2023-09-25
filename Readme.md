@@ -15,7 +15,7 @@ on:
     types: [created]
 ```
 
-And then you can use the action in your jobs like this:
+And then you can use the action in your jobs like this:  123
 
 ```
 jobs:
