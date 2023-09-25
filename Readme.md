@@ -6,7 +6,7 @@ Look for a "trigger word" in a pull-request description or comment, so that late
 
 ## Example usage in a workflow
 
-Your workflow needs to listen to the following events:
+Your workflow needs to listen to the following events423:
 ```
 on:
   pull_request:
