@@ -1,43 +1,16 @@
 name: Pull Request Comment Trigger Example
 on:
   pull_request:
-    types: [opened]
-  issue_comment:
-    types: [created]
+    types: [closed]
 
 jobs:
   hello:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
-        id: check
-        with:
-          trigger: '#hello'
-      - run: 'echo Found it!'
-        if: steps.check.outputs.triggered == 'true'
-
-  eyes:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: khan/pull-request-comment-trigger@master
-        id: check
-        with:
-          trigger: '#look'
-          reaction: eyes
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - run: 'echo Found it!'
-        if: steps.check.outputs.triggered == 'true'
-
-  rocket:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: khan/pull-request-comment-trigger@master
-        id: check
-        with:
-          trigger: '#deploy'
-          reaction: rocket
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - run: 'echo Found it!'
-        if: steps.check.outputs.triggered == 'true'
+       - name: Check PR Merge
+         if: github.event.pull_request.merged
+         run: |
+             PR_AUTHOR=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" \
+             | jq -r .user.login)
+             echo "PR Author: $PR_AUTHOR"
