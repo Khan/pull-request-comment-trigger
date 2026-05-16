@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const core = require("@actions/core");
-const { context, GitHub } = require("@actions/github");
+const { context, getOctokit } = require("@actions/github");
 
 async function run() {
     const trigger = core.getInput("trigger", { required: true });
@@ -16,9 +16,9 @@ async function run() {
     const body =
         (context.eventName === "issue_comment"
         // For comments on pull requests
-            ? context.payload.comment.body
+            ? context.payload.comment.body.trim()
             // For the initial pull request description
-            : context.payload.pull_request.body) || '';
+            : context.payload.pull_request.body.trim()) || '';
     core.setOutput('comment_body', body);
 
     if (
@@ -34,27 +34,60 @@ async function run() {
 
 
     const prefixOnly = core.getInput("prefix_only") === 'true';
-    if ((prefixOnly && !body.startsWith(trigger)) || !body.includes(trigger)) {
+    const allowArguments = core.getInput("allow_arguments") === 'true';
+
+    let hasTrigger = body.startsWith(trigger);
+
+    if (allowArguments) {
+        let regexRawTrigger = trigger.replace(/\s\*{2}/g, ' [^\\s]+');
+
+        if (prefixOnly) {
+            regexRawTrigger = `^${regexRawTrigger}$`;
+        } else {
+            regexRawTrigger = `${regexRawTrigger}$`;
+        }
+
+        const regexTrigger = new RegExp(regexRawTrigger);
+
+        hasTrigger = regexTrigger.test(body);
+    }
+
+    if ((prefixOnly && !hasTrigger) || !hasTrigger) {
         core.setOutput("triggered", "false");
         return;
     }
 
     core.setOutput("triggered", "true");
 
+    if (allowArguments && trigger.includes('**')) {
+        const args = [];
+
+        const triggerSplit = trigger.split(' ');
+        const bodySplit = body.split(' ');
+
+        triggerSplit.forEach((part, i) => {
+            if (part !== '**') return;
+
+            args.push(bodySplit[i]);
+        });
+
+        core.setOutput("arguments", JSON.stringify(args));
+    }
+
     if (!reaction) {
         return;
     }
 
-    const client = new GitHub(GITHUB_TOKEN);
+    const client = getOctokit(GITHUB_TOKEN);
     if (context.eventName === "issue_comment") {
-        await client.reactions.createForIssueComment({
+        await client.rest.reactions.createForIssueComment({
             owner,
             repo,
             comment_id: context.payload.comment.id,
             content: reaction
         });
     } else {
-        await client.reactions.createForIssue({
+        await client.rest.reactions.createForIssue({
             owner,
             repo,
             issue_number: context.payload.pull_request.number,

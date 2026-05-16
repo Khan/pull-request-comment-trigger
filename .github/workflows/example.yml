@@ -9,35 +9,51 @@ jobs:
   hello:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
+      - uses: shanegenschaw/pull-request-comment-trigger@master
         id: check
         with:
-          trigger: '#hello'
-      - run: 'echo Found it!'
+          trigger: "#hello"
+      - run: "echo Found it!"
         if: steps.check.outputs.triggered == 'true'
 
   eyes:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
+      - uses: shanegenschaw/pull-request-comment-trigger@master
         id: check
         with:
-          trigger: '#look'
+          trigger: "#look"
           reaction: eyes
         env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - run: 'echo Found it!'
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - run: "echo Found it!"
         if: steps.check.outputs.triggered == 'true'
 
   rocket:
     runs-on: ubuntu-latest
     steps:
-      - uses: khan/pull-request-comment-trigger@master
+      - uses: shanegenschaw/pull-request-comment-trigger@master
         id: check
         with:
-          trigger: '#deploy'
+          trigger: "#deploy"
           reaction: rocket
         env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - run: 'echo Found it!'
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - run: "echo Found it!"
+        if: steps.check.outputs.triggered == 'true'
+
+  arguments-rocket:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shanegenschaw/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: "#deploy on ** environment"
+          reaction: rocket
+          allow_arguments: true
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - run: |
+          echo 'Found it!'
+          echo 'Deploy on ${{ fromJson(steps.check.outputs.arguments)[0] }}'
         if: steps.check.outputs.triggered == 'true'
